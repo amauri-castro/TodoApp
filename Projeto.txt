@@ -1,0 +1,44 @@
+Definição do Projeto Desenvolvido no Curso de Lógica de Programação Start By Capgemini
+
+Todo App
+
+Descrição: Aplicação para o gerenciamento de projetos e as tarefas envolvidas nesses projetos.
+
+Objetivo: Resolver a questão de organizaçõ de tarefas de um ou vários projetos.
+
+Entidades:
+
+*Projeto;
+    - Nome
+    - Data de criação
+    - Data de atualização
+*Tarefa;
+    - Nome
+    - Descrição
+    - Status
+    - Tags
+    - Observações
+    - Prazo
+    - Data de criação
+    - Data de atualização
+
+Requisitos:
+
+* Permitir criar o Projeto;
+* Permitir alterar o Projeto;
+* Permitir deletar o Projeto;
+
+* Permitir criar a Tarefa;
+* Permitir alterar a Tarefa;
+* Permitir deletar a Tarefa;
+
+Regras de negócio:
+
+* Não irá conter um sistema de login
+* Não havera o conceito de usuário
+* Toda tarefa deve pertencer a um projeto
+
+Tecnologias utilizadas:
+
+* Java
+* MySql
