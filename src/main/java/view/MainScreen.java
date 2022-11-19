@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import model.Project;
 import model.Task;
+import model.User;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
@@ -29,8 +30,13 @@ public class MainScreen extends javax.swing.JFrame {
     DefaultListModel projectsModel;
     TaskTableModel taskModel;
 
-    public MainScreen() {
+    private User user;
+    
+    public MainScreen(User user) {
+        this.user = user;
+        
         initComponents();
+        
         
         
 
@@ -39,7 +45,16 @@ public class MainScreen extends javax.swing.JFrame {
         
         //chama o metodo que criamos pra modificar o design da table
         decorateTableTask();
+        
+        if(this.user != null) {
+            jLabelUser.setText(this.user.getUserName());
+        }
+        
     }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,6 +70,8 @@ public class MainScreen extends javax.swing.JFrame {
         jPanelToolbar = new javax.swing.JPanel();
         jLabelToolbarTitle = new javax.swing.JLabel();
         jLabelToolbarSubtitle = new javax.swing.JLabel();
+        jLabelUser = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jPanelProjects = new javax.swing.JPanel();
         jLabelProjectsTitle = new javax.swing.JLabel();
         jLabelProjectsAdd = new javax.swing.JLabel();
@@ -125,6 +142,14 @@ public class MainScreen extends javax.swing.JFrame {
         jLabelToolbarSubtitle.setText("Anote tudo, não esqueça de nada");
         jLabelToolbarSubtitle.setToolTipText("");
 
+        jLabelUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelUser.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelUser.setText("Username");
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Usuário Logado:");
+
         javax.swing.GroupLayout jPanelToolbarLayout = new javax.swing.GroupLayout(jPanelToolbar);
         jPanelToolbar.setLayout(jPanelToolbarLayout);
         jPanelToolbarLayout.setHorizontalGroup(
@@ -132,15 +157,30 @@ public class MainScreen extends javax.swing.JFrame {
             .addGroup(jPanelToolbarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelToolbarTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelToolbarSubtitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabelToolbarSubtitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelToolbarLayout.createSequentialGroup()
+                        .addComponent(jLabelToolbarTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelToolbarLayout.createSequentialGroup()
+                                .addGap(114, 114, 114)
+                                .addComponent(jLabel1))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelToolbarLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelUser)))))
                 .addContainerGap())
         );
         jPanelToolbarLayout.setVerticalGroup(
             jPanelToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelToolbarLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabelToolbarTitle)
+                .addGroup(jPanelToolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelToolbarLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabelToolbarTitle))
+                    .addGroup(jPanelToolbarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelUser)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelToolbarSubtitle)
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -419,12 +459,13 @@ public class MainScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainScreen().setVisible(true);
+                new MainScreen(new User()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelEmptyListIcon;
     private javax.swing.JLabel jLabelEmptyListSubtitle;
     private javax.swing.JLabel jLabelEmptyListTitle;
@@ -434,6 +475,7 @@ public class MainScreen extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTasksTitle;
     private javax.swing.JLabel jLabelToolbarSubtitle;
     private javax.swing.JLabel jLabelToolbarTitle;
+    private javax.swing.JLabel jLabelUser;
     private javax.swing.JList<String> jListProjects;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelEmptyList;
