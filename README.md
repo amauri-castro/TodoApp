@@ -10,7 +10,7 @@ Desenvolvido durante o curso Lógica de Programação III do programa Start da C
  - Swing
  - MySQL
 
-![Screenshot](screenshot1.png)
+![Screenshot](screenshot1.PNG)
 ![Screenshot](screenshot.png)
-![Screenshot](screenshot2.png)
+![Screenshot](screenshot2.PNG)
 
