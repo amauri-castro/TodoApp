@@ -12,9 +12,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import model.Project;
 import model.Task;
 import model.User;
+import util.ButtonColumnCellRenderer;
 import util.DeadlineColumnCellRenderer;
 import util.TaskTableModel;
 
@@ -31,30 +33,23 @@ public class MainScreen extends javax.swing.JFrame {
     TaskTableModel taskModel;
 
     private User user;
-    
+
     public MainScreen(User user) {
         this.user = user;
-        
+
         initComponents();
-        
-        
-        
 
         initDataController();
         initComponentsModel();
-        
+
         //chama o metodo que criamos pra modificar o design da table
         decorateTableTask();
-        
-        if(this.user != null) {
+
+        if (this.user != null) {
             jLabelUser.setText(this.user.getUserName());
         }
-        
+
     }
-    
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -379,7 +374,7 @@ public class MainScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelProjectsAddMouseClicked
 
     private void jLabelTasksAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTasksAddMouseClicked
-        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled);
+        TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled, new Task());
         int projectIndex = jListProjects.getSelectedIndex();
         Project project = (Project) projectsModel.get(projectIndex);
         taskDialogScreen.setProject(project);
@@ -399,23 +394,37 @@ public class MainScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         int rowIndex = jTableTasks.rowAtPoint(evt.getPoint());
         int columnIndex = jTableTasks.columnAtPoint(evt.getPoint());
-        
+
         Task task = taskModel.getTasks().get(rowIndex);
         switch (columnIndex) {
             case 3:
-               
+
                 taskController.update(task);
                 break;
             case 4:
+                TaskDialogScreen taskDialogScreen = new TaskDialogScreen(this, rootPaneCheckingEnabled, task);
+                taskDialogScreen.setVisible(true);
+                taskDialogScreen.addWindowListener(new WindowAdapter() {
+                    public void windowClosed(WindowEvent e) {
+                        int projectIndex = jListProjects.getSelectedIndex();
+                        Project project = (Project) projectsModel.get(projectIndex);
+                        loadTasks(project.getId());
+                    }
+                });
                 break;
             case 5:
-                
-                taskController.removeById(task.getId());
+                int opcion = JOptionPane.showConfirmDialog(null, "Realmente deseja apagar?", "Aviso", JOptionPane.YES_NO_OPTION);
+
+                if (opcion == 0) { //The ISSUE is here
+                    taskController.removeById(task.getId());
                 taskModel.getTasks().remove(task);
-                
+
                 int projectIndex = jListProjects.getSelectedIndex();
                 Project project = (Project) projectsModel.get(projectIndex);
                 loadTasks(project.getId());
+                }
+
+                
                 break;
             default:
                 throw new AssertionError();
@@ -496,7 +505,13 @@ public class MainScreen extends javax.swing.JFrame {
 
         jTableTasks.getColumnModel().getColumn(2)
                 .setCellRenderer(new DeadlineColumnCellRenderer());
-        
+
+        jTableTasks.getColumnModel().getColumn(4)
+                .setCellRenderer(new ButtonColumnCellRenderer("edit"));
+
+        jTableTasks.getColumnModel().getColumn(5)
+                .setCellRenderer(new ButtonColumnCellRenderer("delete"));
+
         //criando um sort automatico para as colunas da table
         jTableTasks.setAutoCreateRowSorter(true);
     }
